@@ -22,10 +22,5 @@
     "psr-4": {
       "Omnipay\\PayOnline\\": "src"
     }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0.x-dev"
-    }
   }
 }
