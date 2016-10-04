@@ -11,6 +11,11 @@ use Omnipay\Common\Exception\InvalidRequestException;
  */
 class ProtocolException extends InvalidRequestException
 {
+    /**
+     * @var string
+     */
+    private $_detectedCode;
+
     private static $_errors = [
         '1000' => 'Technical failure in the system.',
         '2000' => 'Operation was locked by security system.',
@@ -69,9 +74,25 @@ class ProtocolException extends InvalidRequestException
         '6000' => 'Additional authentication is required.',
     ];
 
-    public function __construct($code, Exception $previous)
+    public function __construct($code, Exception $previous = null)
     {
-        parent::__construct(self::findMessage($code), $code, $previous);
+        parent::__construct(self::findMessage($this->getDetectedCode()), $code, $previous);
+        $this->_detectedCode = $code;
+    }
+
+    /**
+     * @return string|boolean
+     */
+    public function getDetectedCode()
+    {
+        $code = $this->getCode();
+        if (!self::errorExists($code)) {
+            $code = $code[0] . '000';
+            if (!self::errorExists($code)) {
+                return false;
+            }
+        }
+        return $code;
     }
 
     /**
@@ -79,15 +100,9 @@ class ProtocolException extends InvalidRequestException
      * @return string
      * @throws \CException
      */
-    public static function findMessage($code)
+    private static function findMessage($code)
     {
-        if (!self::errorExists($code)) {
-            $code = $code[0] . '000';
-            if (!self::errorExists($code)) {
-                return 'Unknown PayOnline error.';
-            }
-        }
-        return self::$_errors[$code];
+        return !$code ? 'Unknown PayOnline error.' : self::$_errors[$code];
     }
 
     private static function errorExists($code)
