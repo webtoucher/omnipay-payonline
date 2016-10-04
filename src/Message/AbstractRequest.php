@@ -140,7 +140,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      */
     public function sendData($data)
     {
-        $httpRequest = $this->httpClient->get($this->getEndpoint(), null, http_build_query($data, '', '&'));
+        $httpRequest = $this->httpClient->get($this->getEndpoint() . '?' . http_build_query($data, '', '&'));
         $httpResponse = $httpRequest->send();
         parse_str($httpResponse->getBody(), $result);
 
