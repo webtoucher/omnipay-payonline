@@ -20,7 +20,7 @@ class RebillRequest extends AbstractRequest
      */
     protected function createResponse($data)
     {
-        $this->response = new RebillResponse($this, $data);
+        return $this->response = new RebillResponse($this, $data);
     }
 
     /**

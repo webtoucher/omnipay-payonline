@@ -20,7 +20,7 @@ class PurchaseRequest extends AbstractRequest
      */
     protected function createResponse($data)
     {
-        $this->response = new PurchaseResponse($this, $data);
+        return $this->response = new PurchaseResponse($this, $data);
     }
 
     /**
