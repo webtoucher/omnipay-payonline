@@ -49,7 +49,7 @@ class PurchaseRequest extends AbstractRequest
      */
     public function getUrl()
     {
-        $httpRequest = $this->httpClient->get($this->getEndpoint(), null, http_build_query($this->getData(), '', '&'));
+        $httpRequest = $this->httpClient->get($this->getEndpoint() . '?' . http_build_query($this->getData(), '', '&'));
         return $httpRequest->getUrl();
     }
 
