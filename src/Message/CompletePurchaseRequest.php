@@ -31,7 +31,7 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     protected function createResponse($data)
     {
-        $this->response = new CompletePurchaseResponse($this, $data);
+        return $this->response = new CompletePurchaseResponse($this, $data);
     }
 
     /**
