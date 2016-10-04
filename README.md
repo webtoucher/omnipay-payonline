@@ -32,14 +32,61 @@ The following gateways are provided by this package:
 * PayOnline
 
 ```php
-    $gateway = Omnipay::create('PayOnline');
+    $gateway = \Omnipay\Omnipay::create('PayOnline');
     $gateway->setMerchantId('[MERCHANT_ID]');
     $gateway->setApiKey('[API_PRIVATE_KEY]');
+    $gateway->setLanguage('ru'); // default - en
+```
 
+Then you should create payment url (for redirecting or using iframe).
+
+```php
     try {
-        // an example is not completed yet
-    } catch (ApplicationException $e) {
+        $request = $this->gateway->purchase([
+            'order_id' => 123,
+            'amount' => 10,
+            'currency' => 'EUR',
+            'description' => 'Test payment',
+            'user' => 1234,
+            'email' => 'test@test.com',
+            'return_url' => 'https://your.domain.com/success/',
+            'cancel_url' => 'https://your.domain.com/fail/',,
+        ]);
+
+        $response = $request->send();
+
+        if ($response->isSuccessful()) {
+            $url = $response->getUrl();
+            // Use this url as iframe source or for redirect
+        }
+    } catch (\Omnipay\Common\Exception\OmnipayException $e) {
         throw new ApplicationException($e->getMessage());
+    }
+```
+
+Catch PayOnline callback:
+
+```php
+    try {
+        $request = $this->gateway->completePurchase([
+            'result' => $result,
+            'datetime' => $DateTime,
+            'transaction_id' => $TransactionID,
+            'order_id' => $OrderId,
+            'amount' => $Amount,
+            'currency' => $Currency,
+            'token' => $RebillAnchor,
+            'card' => new \Omnipay\Common\CreditCard(['number' => $CardNumber]),
+            'user' => $User,
+            'error_code' => isset($Code) ? $Code : $ErrorCode,
+        ]);
+
+        $response = $request->send();
+
+        $success = $response->isSuccessful();
+    } catch (\Omnipay\Common\Exception\OmnipayException $e) {
+        $success = false;
+        // throw new ApplicationException($e->getMessage());
     }
 ```
 
