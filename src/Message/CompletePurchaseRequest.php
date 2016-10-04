@@ -12,9 +12,17 @@ class CompletePurchaseRequest extends AbstractRequest
 {
     /**
      * @inheritdoc
+     * @throws \Omnipay\PayOnline\Exception\ProtocolException
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function sendData($data)
     {
+        if ($this->getResult()) {
+            throw new ProtocolException($this->getErrorCode());
+        }
+        if ($data['SecurityKey'] !== $this->getPublicKey()) {
+            throw new InvalidRequestException('Invalid public key was received.');
+        }
         return $this->createResponse($data);
     }
 
@@ -28,18 +36,11 @@ class CompletePurchaseRequest extends AbstractRequest
 
     /**
      * @inheritdoc
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getData()
     {
-        if ($this->getResult()) {
-            throw new ProtocolException($this->getErrorCode());
-        }
         $data = $this->getSignatureParams();
         $data['SecurityKey'] = $this->generateSignature();
-        if ($data['SecurityKey'] !== $this->getPublicKey()) {
-            throw new InvalidRequestException('Invalid public key was received.');
-        }
         $data['RebillAnchor'] = $this->getToken();
         $data['Card'] = $this->getCard();
         return $data;
