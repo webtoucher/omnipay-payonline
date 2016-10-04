@@ -43,6 +43,17 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
+     * Build URL for redirect or iframe source.
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        $httpRequest = $this->httpClient->get($this->getEndpoint(), null, http_build_query($this->getData(), '', '&'));
+        return $httpRequest->getUrl();
+    }
+
+    /**
      * @inheritdoc
      */
     protected function getSignatureParams()
