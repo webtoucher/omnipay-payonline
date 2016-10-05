@@ -6,6 +6,8 @@ use Omnipay\Common\Message\AbstractResponse;
 
 /**
  * PayOnline complete purchase response.
+ *
+ * @property CompletePurchaseRequest $request
  */
 class CompletePurchaseResponse extends AbstractResponse
 {
@@ -14,9 +16,6 @@ class CompletePurchaseResponse extends AbstractResponse
      */
     public function isSuccessful()
     {
-        if (!array_key_exists('result', $this->data)) {
-            return false;
-        }
-        return $this->data['result'] === '1';
+        return $this->request->getResult();
     }
 }
