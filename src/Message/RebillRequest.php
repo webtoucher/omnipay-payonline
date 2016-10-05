@@ -10,14 +10,6 @@ class RebillRequest extends AbstractRequest
     /**
      * @inheritdoc
      */
-    public function sendData($data)
-    {
-        return $this->createResponse($data);
-    }
-
-    /**
-     * @inheritdoc
-     */
     protected function createResponse($data)
     {
         return $this->response = new RebillResponse($this, $data);
