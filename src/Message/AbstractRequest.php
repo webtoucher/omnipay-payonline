@@ -88,6 +88,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('datetime', $value);
     }
 
+    public function getCardNumber()
+    {
+        return $this->getParameter('card_number');
+    }
+
+    public function setCardNumber($value)
+    {
+        return $this->setParameter('card_number', $value);
+    }
+
     public function getPublicKey()
     {
         return $this->getParameter('public_key');
