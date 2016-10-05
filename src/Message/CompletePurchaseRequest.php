@@ -17,7 +17,7 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        if ($this->getResult()) {
+        if (!$this->getResult()) {
             throw new ProtocolException($this->getErrorCode());
         }
         if ($data['SecurityKey'] !== $this->getPublicKey()) {
