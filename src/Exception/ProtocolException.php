@@ -11,11 +11,6 @@ use Omnipay\Common\Exception\InvalidRequestException;
  */
 class ProtocolException extends InvalidRequestException
 {
-    /**
-     * @var string
-     */
-    private $_detectedCode;
-
     private static $_errors = [
         '1000' => 'Technical failure in the system.',
         '2000' => 'Operation was locked by security system.',
@@ -76,8 +71,8 @@ class ProtocolException extends InvalidRequestException
 
     public function __construct($code, Exception $previous = null)
     {
-        parent::__construct(self::findMessage($this->getDetectedCode()), $code, $previous);
-        $this->_detectedCode = $code;
+        parent::__construct('', $code, $previous);
+        $this->message = self::findMessage($this->getDetectedCode());
     }
 
     /**
@@ -85,7 +80,7 @@ class ProtocolException extends InvalidRequestException
      */
     public function getDetectedCode()
     {
-        $code = $this->getCode();
+        $code = (string) $this->getCode();
         if (!self::errorExists($code)) {
             $code = $code[0] . '000';
             if (!self::errorExists($code)) {

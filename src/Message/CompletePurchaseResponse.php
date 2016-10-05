@@ -16,6 +16,6 @@ class CompletePurchaseResponse extends AbstractResponse
      */
     public function isSuccessful()
     {
-        return $this->request->getResult();
+        return true;
     }
 }
