@@ -69,6 +69,6 @@ class PurchaseRequest extends AbstractRequest
 
     public function getEndpoint()
     {
-        return "$this->liveEndpoint/{$this->getLanguage()}/payment/";
+        return "{$this->getBaseEndpoint()}/{$this->getLanguage()}/payment/";
     }
 }

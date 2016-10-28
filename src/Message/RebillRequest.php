@@ -46,6 +46,6 @@ class RebillRequest extends AbstractRequest
 
     public function getEndpoint()
     {
-        return "$this->liveEndpoint/payment/transaction/rebill/";
+        return "{$this->getBaseEndpoint()}/payment/transaction/rebill/";
     }
 }
