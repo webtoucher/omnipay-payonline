@@ -43,6 +43,16 @@ class Gateway extends AbstractGateway
         return $this->setParameter('secret_key', $value);
     }
 
+    public function getBaseEndpoint()
+    {
+        return $this->getParameter('base_endpoint');
+    }
+
+    public function setBaseEndpoint($value)
+    {
+        return $this->setParameter('base_endpoint', $value);
+    }
+
     public function getLanguage()
     {
         return $this->getParameter('language');

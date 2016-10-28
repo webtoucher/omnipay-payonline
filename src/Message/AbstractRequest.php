@@ -38,6 +38,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('secret_key', $value);
     }
 
+    public function getBaseEndpoint()
+    {
+        return $this->getParameter('base_endpoint') ?: $this->liveEndpoint;
+    }
+
+    public function setBaseEndpoint($value)
+    {
+        return $this->setParameter('base_endpoint', $value);
+    }
+
     public function getLanguage()
     {
         return strtolower($this->getParameter('language'));
