@@ -2,6 +2,7 @@
 
 namespace Omnipay\PayOnline\Message;
 
+use Guzzle\Http\Message\Response;
 use Omnipay\Common\Message\ResponseInterface;
 
 /**
@@ -12,6 +13,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     const API_VERSION = '1.0.3';
 
     protected $liveEndpoint = 'https://secure.payonlinesystem.com';
+
+    /**
+     * @var Response
+     */
+    private $httpResponse;
 
     public function getCurrencyDecimalPlaces()
     {
@@ -161,10 +167,15 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function sendData($data)
     {
         $httpRequest = $this->httpClient->get($this->getEndpoint() . '?' . http_build_query($data, '', '&'));
-        $httpResponse = $httpRequest->send();
-        parse_str($httpResponse->getBody(), $result);
+        $this->httpResponse = $httpRequest->send();
+        parse_str($this->httpResponse->getBody(), $result);
 
         return $this->createResponse($result);
+    }
+
+    public function getHttpResponse()
+    {
+        return $this->httpResponse;
     }
 
     /**
