@@ -18,12 +18,12 @@ abstract class LocalizedError
      */
     final public static function findMessage($code)
     {
-        $code = self::getExistingCode($code);
-        return !$code ? static::UNKNOWN_ERROR : self::$errors[$code];
+        $code = self::getExistingCode((string) $code);
+        return !$code ? static::UNKNOWN_ERROR : static::$errors[$code];
     }
 
     /**
-     * @param $code
+     * @param string $code
      * @return string
      */
     private static function getExistingCode($code)
@@ -37,8 +37,12 @@ abstract class LocalizedError
         return $code;
     }
 
+    /**
+     * @param string $code
+     * @return boolean
+     */
     private static function errorExists($code)
     {
-        return array_key_exists($code, self::$errors);
+        return array_key_exists($code, static::$errors);
     }
 }
