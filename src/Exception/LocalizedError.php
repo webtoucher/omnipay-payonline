@@ -9,7 +9,7 @@ abstract class LocalizedError
 {
     const UNKNOWN_ERROR = 'Unknown PayOnline error.';
 
-    protected static $errors = [
+    protected static $_errors = [
     ];
 
     /**
@@ -19,7 +19,7 @@ abstract class LocalizedError
     final public static function findMessage($code)
     {
         $code = self::getExistingCode((string) $code);
-        return !$code ? static::UNKNOWN_ERROR : static::$errors[$code];
+        return !$code ? static::UNKNOWN_ERROR : static::$_errors[$code];
     }
 
     /**
@@ -43,6 +43,6 @@ abstract class LocalizedError
      */
     private static function errorExists($code)
     {
-        return array_key_exists($code, static::$errors);
+        return array_key_exists($code, static::$_errors);
     }
 }
